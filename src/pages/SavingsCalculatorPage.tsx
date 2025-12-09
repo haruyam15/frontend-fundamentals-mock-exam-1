@@ -6,6 +6,8 @@ import { TabValue } from 'types';
 
 export function SavingsCalculatorPage() {
   const [selectedTab, setSelectedTab] = useState<TabValue>('products');
+  //selectedTab === 'products'를 그대로 둘 것인가 VS "isProductsSelected" 같은 상태를 추가할것인가?
+
   //상태 isProductsSelected, isResultsSelected를 만들어서
   //selectedTab === 'products' 이 코드를 간단하게 줄이는게 좋을까요? 그대로 두는게 좋을까요?
   //만약 상태를 추가하면 반복되는 selectedTab === 'products' 코드도 줄이고 좀더 간결하게 isProductsSelected 이렇게 사용가능함
@@ -19,13 +21,14 @@ export function SavingsCalculatorPage() {
   return (
     <>
       <NavigationBar title="적금 계산기" />
-
       <Spacing size={16} />
 
       <TextField label="목표 금액" placeholder="목표 금액을 입력하세요" suffix="원" />
       <Spacing size={16} />
+
       <TextField label="월 납입액" placeholder="희망 월 납입액을 입력하세요" suffix="원" />
       <Spacing size={16} />
+
       <SelectBottomSheet label="저축 기간" title="저축 기간을 선택해주세요" value={12} onChange={() => {}}>
         <SelectBottomSheet.Option value={6}>6개월</SelectBottomSheet.Option>
         <SelectBottomSheet.Option value={12}>12개월</SelectBottomSheet.Option>
@@ -37,7 +40,6 @@ export function SavingsCalculatorPage() {
       <Spacing size={8} />
 
       <Tab onChange={val => setSelectedTab(val as TabValue)}>
-        {/* 여기서 as 대신 다른방법 뭐 있죠 ㅠ 널리 쓰이는 정석적인 방법이 있나요? */}
         <Tab.Item value="products" selected={selectedTab === 'products'}>
           적금 상품
         </Tab.Item>

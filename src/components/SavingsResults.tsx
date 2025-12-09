@@ -3,7 +3,6 @@ import { Border, colors, ListHeader, ListRow, Spacing } from 'tosslib';
 export function SavingsResults() {
   return (
     <>
-      {/* 아래는 계산 결과 탭 내용이에요. 계산 결과 탭을 구현할 때 주석을 해제해주세요. */}
       <Spacing size={8} />
 
       <ListRow

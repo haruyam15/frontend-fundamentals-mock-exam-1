@@ -8,3 +8,10 @@ export interface SavingsProduct {
   maxMonthlyAmount: number;
   availableTerms: number;
 }
+
+export type GetProductListResult = {
+  data: SavingsProduct[];
+  isLoading: boolean;
+  isError: boolean;
+  error: string | null;
+};
