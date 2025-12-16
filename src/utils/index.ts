@@ -1,9 +1,22 @@
-export function formatCurrency(value: number | string): string {
-  const num = Number(value);
-
-  if (isNaN(num)) {
-    return '0';
+export function formatCurrency(value: string | number): string {
+  if (value === '') {
+    return '';
+  }
+  if (typeof value === 'string') {
+    const removedComma = removeComma(value);
+    if (isNaN(Number(removedComma))) {
+      return '';
+    }
+    return Number(removedComma).toLocaleString('ko-KR');
   }
 
-  return num.toLocaleString('ko-KR');
+  if (isNaN(Number(value))) {
+    return '-';
+  }
+
+  return Number(value).toLocaleString('ko-KR');
+}
+
+export function removeComma(value: string): string {
+  return value.replace(/,/g, '');
 }

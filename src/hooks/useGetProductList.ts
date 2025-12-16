@@ -14,6 +14,7 @@ export function useGetProductList() {
     try {
       const response = await http.get<SavingsProduct[]>('/api/savings-products');
       setData(response);
+      // setData([]);
     } catch (e) {
       setError(isHttpError(e) ? e.message : 'unknown error');
     } finally {

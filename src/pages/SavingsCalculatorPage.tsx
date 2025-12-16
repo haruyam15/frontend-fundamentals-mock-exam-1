@@ -1,35 +1,51 @@
-import { SavingsProducts } from 'components/SavingsProducts';
-import { SavingsResults } from 'components/SavingsResults';
+import { TabContents } from 'components/TabContents';
+import { useGetProductList } from 'hooks/useGetProductList';
 import { useState } from 'react';
 import { Border, NavigationBar, SelectBottomSheet, Spacing, Tab, TextField } from 'tosslib';
 import { TabValue } from 'types';
+import { formatCurrency } from 'utils';
 
 export function SavingsCalculatorPage() {
+  const { data, isLoading, isError, error } = useGetProductList();
   const [selectedTab, setSelectedTab] = useState<TabValue>('products');
-  //selectedTab === 'products'를 그대로 둘 것인가 VS "isProductsSelected" 같은 상태를 추가할것인가?
+  const [goalAmount, setGoalAmount] = useState('');
+  const [monthlyAmount, setMonthlyAmount] = useState('');
+  const [availableTerms, setAvailableTerms] = useState(12);
 
-  //상태 isProductsSelected, isResultsSelected를 만들어서
-  //selectedTab === 'products' 이 코드를 간단하게 줄이는게 좋을까요? 그대로 두는게 좋을까요?
-  //만약 상태를 추가하면 반복되는 selectedTab === 'products' 코드도 줄이고 좀더 간결하게 isProductsSelected 이렇게 사용가능함
-  //대신 상태가 늘어나고 탭이 추가될때마다 상태도 늘어나게됨 (상태가 늘어나는건 메모리를 사용하는건가? 개수 늘어나는거 말고 단점이 뭘까요?)
-
-  //상태 추가안하면 지금은 두번 밖에 안쓰이는 selectedTab === 'products' 요 코드를 그대로 두는거고
-  //음 .. 장점은 탭이 늘어나며 상태는 추가 안해도 됨
-
-  //근데 어쨋든 두 경우 모두 탭이 수정될때마다 코드를 수정해야함. TabValue타입도 추가해줘야하고 Tab.Item, 탭 내용 컴포넌트도 추가 해줘야함
+  //UX 개선 예정: 사용자 필수 입력값이 없다면 목표금액,월 납입액을 입력해주세요 문구 노출.
+  //UX 개선 예정: 계산결과 화면에서 월 납입액이나 납입기간 변경 후 체크된 상품이 없어지면 '상품 선택해주세요'가 나오는데 이 경우 적금 상품 탭으로 이동시켜주면 좋을 것 같음
+  //UX 개선 예정: 목표금액, 월 납입액 50,000 -> 30,000 변경시 10,000의 자리를 지워도 유지 되게 수정 (현재 그냥 0으로 됨)
+  //UX 개선 예정 : 목표금액, 월 납입액 변경시 이전 화면유지(타이핑중 결과유실 방지)
 
   return (
     <>
       <NavigationBar title="적금 계산기" />
       <Spacing size={16} />
 
-      <TextField label="목표 금액" placeholder="목표 금액을 입력하세요" suffix="원" />
+      <TextField
+        label="목표 금액"
+        placeholder="목표 금액을 입력하세요"
+        suffix="원"
+        value={goalAmount}
+        onChange={e => setGoalAmount(formatCurrency(e.target.value))}
+      />
       <Spacing size={16} />
 
-      <TextField label="월 납입액" placeholder="희망 월 납입액을 입력하세요" suffix="원" />
+      <TextField
+        label="월 납입액"
+        placeholder="희망 월 납입액을 입력하세요"
+        suffix="원"
+        value={monthlyAmount}
+        onChange={e => setMonthlyAmount(formatCurrency(e.target.value))}
+      />
       <Spacing size={16} />
 
-      <SelectBottomSheet label="저축 기간" title="저축 기간을 선택해주세요" value={12} onChange={() => {}}>
+      <SelectBottomSheet
+        label="저축 기간"
+        title="저축 기간을 선택해주세요"
+        value={availableTerms}
+        onChange={term => setAvailableTerms(term)}
+      >
         <SelectBottomSheet.Option value={6}>6개월</SelectBottomSheet.Option>
         <SelectBottomSheet.Option value={12}>12개월</SelectBottomSheet.Option>
         <SelectBottomSheet.Option value={24}>24개월</SelectBottomSheet.Option>
@@ -48,8 +64,19 @@ export function SavingsCalculatorPage() {
         </Tab.Item>
       </Tab>
 
-      {selectedTab === 'products' && <SavingsProducts />}
-      {selectedTab === 'results' && <SavingsResults />}
+      {isError ? (
+        <>{error}</>
+      ) : isLoading ? (
+        <>로딩중</>
+      ) : (
+        <TabContents
+          data={data}
+          goalAmount={goalAmount}
+          monthlyAmount={monthlyAmount}
+          availableTerms={availableTerms}
+          selectedTab={selectedTab}
+        ></TabContents>
+      )}
     </>
   );
 }
