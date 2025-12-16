@@ -59,13 +59,15 @@ TabContents (탭 공통 상태 관리)
 
 데이터는 항상 **위에서 아래로만 흐르도록** 설계했습니다.
 
-SavingsCalculatorPage  
-↓  
-TabContents  
-↓  
-SavingsProducts / SavingsResults  
-↓  
+```
+SavingsCalculatorPage
+↓
+TabContents
+↓
+SavingsProducts / SavingsResults
+↓
 ProductRow
+```
 
 - 하위 컴포넌트는 **상태를 직접 소유하지 않고**
 - 상위 컴포넌트에서 전달받은 데이터와 콜백만 사용합니다.
