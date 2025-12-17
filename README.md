@@ -32,9 +32,9 @@ TabContents (탭 공통 상태 관리)
  └─ selectedTab === 'results'
         ▼
      SavingsResults (결과 탭 UI)
-     ├─ 계산 로직
-     └─ ProductRow (추천 상품)
-
+     ├─ 계산 로직 및 결과 표시
+     └─ (slot) RecommendedProducts (추천 상품 목록 UI)
+            └─ ProductRow (리스트)
 ```
 
 ### 2️⃣ 상태 범위에 따른 책임 분리
@@ -48,7 +48,8 @@ TabContents (탭 공통 상태 관리)
   - 선택된 상품, 필터링 결과
   - → `TabContents`에서 관리
 - **단순 표시를 위한 UI 단위**
-  - → 각 Tab 컴포넌트 및 `ProductRow`
+  - 상품 리스트/결과 UI, 추천 상품 목록 UI
+  - → SavingsProducts, SavingsResults, RecommendedProducts, ProductRow
 
 이를 통해
 
@@ -67,14 +68,14 @@ TabContents
 ↓
 SavingsProducts / SavingsResults
 ↓
-ProductRow
+ProductRow / RecommendedProducts
 ```
 
 - 페이지 전반에 영향을 미치는 입력 상태는 SavingsCalculatorPage에서 관리합니다.
 
 - 탭 간에 공유되는 선택 상태(checkedProductId)와 상품 선택 규칙은 TabContents에서만 관리합니다.
 
-- SavingsProducts, SavingsResults, ProductRow는
+- SavingsProducts, SavingsResults, RecommendedProducts, ProductRow는
   상태를 직접 변경하지 않고 사용자 이벤트를 콜백으로 상위에 위임합니다.
 
 이 구조는
