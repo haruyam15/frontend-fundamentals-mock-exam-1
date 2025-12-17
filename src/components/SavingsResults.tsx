@@ -34,11 +34,7 @@ export default function SavingsResults({
   const goalDifference = Number(removeComma(goalAmount)) - expectedAmount;
   const rawMonthlyAmount = Number(removeComma(goalAmount)) / (availableTerms * (1 + annualRate * 0.5));
   const roundedMonthlyAmount = Math.round(rawMonthlyAmount / 1000) * 1000;
-  // const recommendedProduct = [...filteredData].sort((a, b) => b.annualRate - a.annualRate).slice(0, 2);
-
   const recommendedMonthlyAmount = Math.min(maxMonthlyAmount, Math.max(minMonthlyAmount, roundedMonthlyAmount));
-  // 의문점1 : 추천 월 납입 금액이 상품의 최대 월 납입금액보다 크게 나오면 안될 것 같음
-  // 의문점2 : 추천 월 납입 금액이 상품의 최소 월 납입금액보다 작게 나오면 안될 것 같음
 
   return (
     <>

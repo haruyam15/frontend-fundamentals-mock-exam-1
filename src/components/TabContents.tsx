@@ -16,7 +16,6 @@ interface TabContentsProps {
 export function TabContents({ data, goalAmount, monthlyAmount, availableTerms, selectedTab }: TabContentsProps) {
   const [checkedProductId, setCheckedProductId] = useState('');
 
-  // UX 개선완료 : 계산 결과 화면에서 토글이 된다면 계산값 잃어버림 -> 계산 결과 탭에선 토글방지
   const setCheckedProduct = useCallback((id: string, toggle = true) => {
     if (toggle) {
       setCheckedProductId(prev => (prev === id ? '' : id));

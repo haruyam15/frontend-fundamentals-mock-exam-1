@@ -1,5 +1,4 @@
 import ProductRow from 'components/ProductRow';
-import { memo } from 'react';
 import { ListRow } from 'tosslib';
 import { SavingsProduct } from 'types';
 
@@ -9,11 +8,7 @@ interface SavingsProductsProps {
   filteredData: SavingsProduct[];
 }
 
-const SavingsProducts = memo(function SavingsProducts({
-  checkedProductId,
-  setCheckedProduct,
-  filteredData,
-}: SavingsProductsProps) {
+export default function SavingsProducts({ checkedProductId, setCheckedProduct, filteredData }: SavingsProductsProps) {
   if (filteredData.length === 0) {
     return (
       <ListRow
@@ -31,7 +26,6 @@ const SavingsProducts = memo(function SavingsProducts({
   return (
     <>
       {filteredData.map(product => (
-        // 성능 개선 : 체크 변경될때마다 전체 row 리랜더링 방지를 위해 memo사용
         <ProductRow
           key={product.id}
           product={product}
@@ -41,6 +35,4 @@ const SavingsProducts = memo(function SavingsProducts({
       ))}
     </>
   );
-});
-
-export default SavingsProducts;
+}

@@ -12,11 +12,6 @@ export function SavingsCalculatorPage() {
   const [monthlyAmount, setMonthlyAmount] = useState('');
   const [availableTerms, setAvailableTerms] = useState(12);
 
-  //UX 개선 예정: 사용자 필수 입력값이 없다면 목표금액,월 납입액을 입력해주세요 문구 노출.
-  //UX 개선 예정: 계산결과 화면에서 월 납입액이나 납입기간 변경 후 체크된 상품이 없어지면 '상품 선택해주세요'가 나오는데 이 경우 적금 상품 탭으로 이동시켜주면 좋을 것 같음
-  //UX 개선 예정: 목표금액, 월 납입액 50,000 -> 30,000 변경시 10,000의 자리를 지워도 유지 되게 수정 (현재 그냥 0으로 됨)
-  //UX 개선 예정 : 목표금액, 월 납입액 변경시 이전 화면유지(타이핑중 결과유실 방지)
-
   return (
     <>
       <NavigationBar title="적금 계산기" />
