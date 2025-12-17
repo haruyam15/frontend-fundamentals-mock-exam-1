@@ -1,6 +1,5 @@
-import ProductRow from 'components/ProductRow';
-import { memo } from 'react';
-import { Border, colors, ListHeader, ListRow, Spacing } from 'tosslib';
+import { ReactNode } from 'react';
+import { colors, ListRow, Spacing } from 'tosslib';
 import { SavingsProduct } from 'types';
 import { formatCurrency, removeComma } from 'utils';
 
@@ -11,16 +10,16 @@ interface SavingsResultsProps {
   availableTerms: number;
   checkedProductId: string;
   filteredData: SavingsProduct[];
-  setCheckedProduct: (id: string) => void;
+  children?: ReactNode;
 }
 
-const SavingsResults = memo(function SavingsResults({
+export default function SavingsResults({
   goalAmount,
   monthlyAmount,
   availableTerms,
   checkedProductId,
   filteredData,
-  setCheckedProduct,
+  children,
 }: SavingsResultsProps) {
   const checkedProduct = filteredData.find(item => item.id === checkedProductId);
 
@@ -35,7 +34,7 @@ const SavingsResults = memo(function SavingsResults({
   const goalDifference = Number(removeComma(goalAmount)) - expectedAmount;
   const rawMonthlyAmount = Number(removeComma(goalAmount)) / (availableTerms * (1 + annualRate * 0.5));
   const roundedMonthlyAmount = Math.round(rawMonthlyAmount / 1000) * 1000;
-  const recommendedProduct = [...filteredData].sort((a, b) => b.annualRate - a.annualRate).slice(0, 2);
+  // const recommendedProduct = [...filteredData].sort((a, b) => b.annualRate - a.annualRate).slice(0, 2);
 
   const recommendedMonthlyAmount = Math.min(maxMonthlyAmount, Math.max(minMonthlyAmount, roundedMonthlyAmount));
   // 의문점1 : 추천 월 납입 금액이 상품의 최대 월 납입금액보다 크게 나오면 안될 것 같음
@@ -86,26 +85,7 @@ const SavingsResults = memo(function SavingsResults({
         }
       />
 
-      <Spacing size={8} />
-      <Border height={16} />
-      <Spacing size={8} />
-
-      <ListHeader title={<ListHeader.TitleParagraph fontWeight="bold">추천 상품 목록</ListHeader.TitleParagraph>} />
-      <Spacing size={12} />
-
-      {recommendedProduct.map(product => (
-        <ProductRow
-          key={product.id}
-          product={product}
-          isChecked={product.id === checkedProductId}
-          setCheckedProduct={setCheckedProduct}
-          toggle={false}
-        />
-      ))}
-
-      <Spacing size={40} />
+      {children}
     </>
   );
-});
-
-export default SavingsResults;
+}

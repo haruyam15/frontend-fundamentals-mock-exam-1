@@ -1,3 +1,4 @@
+import RecommendedProducts from 'components/RecommendedProducts';
 import SavingsProducts from 'components/SavingsProducts';
 import SavingsResults from 'components/SavingsResults';
 import { useCallback, useMemo, useState } from 'react';
@@ -48,7 +49,12 @@ export function TabContents({ data, goalAmount, monthlyAmount, availableTerms, s
       availableTerms={availableTerms}
       filteredData={filteredData}
       checkedProductId={checkedProductId}
-      setCheckedProduct={setCheckedProduct}
-    />
+    >
+      <RecommendedProducts
+        filteredData={filteredData}
+        checkedProductId={checkedProductId}
+        setCheckedProduct={setCheckedProduct}
+      />
+    </SavingsResults>
   );
 }
